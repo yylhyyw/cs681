@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project name="HW2" basedir="." default="run">
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property environment="env"/>
+	<path id="classpath">
+		<pathelement location="${bin}" /> 
+	</path>
+	
+	<target name="clean">
+		<delete dir="${bin}"/>
+	</target>
+	
+	<target name="init" depends="clean">
+		<mkdir dir="${bin}"/>
+	</target>
+
+	
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
+		</javac>
+	</target>
+	
+	<target name="run" depends="compile">
+		<java classname="edu.umb.cs681.CarCompare"
+				classpath="bin"
+				fork="true"/>
+	</target>
+</project>
