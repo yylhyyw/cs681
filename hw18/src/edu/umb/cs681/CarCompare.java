@@ -18,26 +18,39 @@ public class CarCompare {
 		System.out.println("Audi with price 40000\n");
 		System.out.println("Min Price Method result --------: ");
 		Integer minPrice = cars.stream()
+				.parallel()
 				.map((Car car) -> car.getPrice())
 				.reduce(0, (result, carPrice)->{
 				if(result==0) return carPrice;
-				else if(carPrice < result) return carPrice; else return result;});
+				else if(carPrice < result) return carPrice; else return result;},
+					    (finalResult, interMediateResult)->{
+					    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+					    	return (finalResult < interMediateResult)? finalResult:interMediateResult;
+					    });
 		System.out.println("The Min price: " + minPrice);
 		System.out.println("Max Price Method result --------: ");
 		Integer maxPrice = cars.stream()
 				.map((Car car) -> car.getPrice())
+				.parallel()
 				.reduce(0, (result, carPrice) -> {
 					if(result == 0) return carPrice;
 					else if(carPrice >= result) return carPrice;
 					else return result;
-				});
+				}, 					    (finalResult, interMediateResult)->{
+			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	return (finalResult > interMediateResult)? finalResult:interMediateResult;
+			    });
 		System.out.println("The Max price: " + maxPrice);
 		System.out.println("Count Method result --------: ");
 		Integer count = cars.stream()
+				.parallel()
 				.map((Car car) -> car.getPrice())
 				.reduce(0, (result, car) -> {
 					if(car != null) return ++result;
 					return result;
+				},										(finalResult,intermediateResult)->{
+			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + intermediateResult);
+					return finalResult + intermediateResult;
 				});
 		System.out.println("The count Method: " + count);
 	}

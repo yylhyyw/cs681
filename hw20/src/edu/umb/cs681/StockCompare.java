@@ -24,26 +24,35 @@ public class StockCompare {
 		System.out.println("Microsoft with open price 158.16 closed price 160.92 on date 3 10, 2020\n");
 		System.out.println("Max increase rate Method result --------: ");
 		Float maxIncreaseRate = stocks.stream()
+				.parallel()
 				.map((Stock stock) -> (stock.getClosePrice()-stock.getOpenPrice())*100/stock.getOpenPrice())
 				.reduce(Float.MIN_VALUE, (result, stockRate) -> {
-					if(stockRate >= result) return stockRate;
+					if(stockRate > result) return stockRate;
 					else return result;
-				});
+				}, (finalResult, interMediateResult)->{
+			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	return (finalResult > interMediateResult)? finalResult:interMediateResult;});
 		System.out.println("The Max Increase rate is " + maxIncreaseRate);
 		System.out.println("Min increase rate Method result --------: ");
 		Float minIncreaseRate = stocks.stream()
+				.parallel()
 				.map((Stock stock) -> (stock.getClosePrice()-stock.getOpenPrice())*100/stock.getOpenPrice())
 				.reduce(Float.MAX_VALUE, (result, stockRate) -> {
-					if(stockRate > result) return result;
-					else return stockRate;
-				});
+					if(stockRate < result) return stockRate;
+					else return result;
+				}, (finalResult, interMediateResult)->{
+			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	return (finalResult < interMediateResult)? finalResult:interMediateResult;});
 		System.out.println("The Min Increase rate is " + minIncreaseRate);
 		System.out.println("Count the number of stocks that have increase rate bigger than 2% method result --------: ");
 		Integer count = stocks.stream()
+				.parallel()
 				.map((Stock stock) -> ((stock.getClosePrice()-stock.getOpenPrice())*100/stock.getOpenPrice()) > 2 ? 1 : 0)
 				.reduce(0, (result, existed) -> {
 					return result + existed;
-				});
+				}, (finalResult, interMediateResult)->{
+			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	return finalResult+interMediateResult;});
 		System.out.println("The Number of stocks with increase rate bigger than 2% is " + count);
 	}
 	
