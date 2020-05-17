@@ -3,7 +3,6 @@ package edu.umb.cs681;
 //import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadSafeObservable {
 	

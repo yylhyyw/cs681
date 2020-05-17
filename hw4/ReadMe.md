@@ -1,5 +1,5 @@
-#### HomeWork 2 Answer
-#### Yiwei Yao
+### HomeWork 4 Answer
+
 ---
 Measure the overhead of generating primes in b/w 1 and 2M to
 see how threads run：
@@ -10,3 +10,7 @@ see how threads run：
 | 4            | 2.845s     |
 | 8            | 2.255s     |
 | 16           | 2.099s     |
+
+* Files:
+    * PrimeGenerator.java
+    * RunnablePrimeGenerator.java (include Main Method, default as 2 threads to generate primes in b/w 1 and 2M)

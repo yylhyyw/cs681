@@ -22,17 +22,23 @@ public class WithdrawRunnable implements Runnable {
 	}
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (true) {
+			lock.lock();
+			try{
 				if (done) {
+					System.out.println(Thread.currentThread().getId() + " Set to done");
 					break;
 				}
-				bankAccount.withdraw(100);
-				Thread.sleep(1000);
+			} finally {
+				lock.unlock();
 			}
-		} catch (InterruptedException exception) {
-//			exception.printStackTrace();
-			System.out.println(exception);
+			bankAccount.withdraw(100);
+			try{
+				Thread.sleep(1000);
+			} catch (InterruptedException exception) {
+				System.out.println(exception);
+				continue;
+			}
 		}
 	}
 }

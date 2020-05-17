@@ -6,15 +6,27 @@ public class Client {
 		AdmissionControl admissionControl = new AdmissionControl();
 		EntranceHandler entranceHandler = new EntranceHandler(admissionControl);
 		ExitHandler exitHandler = new ExitHandler(admissionControl);
-		Thread[] enterthreads = new Thread[10];
-		Thread[] exitthreads = new Thread[10];
 		
-		for(int i = 0; i <10; i++) {
-			enterthreads[i] = new Thread(entranceHandler);
-			enterthreads[i].start();
-			exitthreads[i] = new Thread(exitHandler);
-			exitthreads[i].start();
+		Thread entranceThread = new Thread(entranceHandler);
+		entranceThread.start();
+		Thread exitThread = new Thread(exitHandler);
+		exitThread.start();
+
+		try{
+			Thread.sleep(1000);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-	
+
+		entranceHandler.setDone();
+		exitHandler.setDone();
+		entranceThread.interrupt();
+		exitThread.interrupt();
+		try {
+			entranceThread.join();
+			exitThread.join();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 }

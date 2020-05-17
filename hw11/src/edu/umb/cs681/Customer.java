@@ -16,7 +16,7 @@ public class Customer {
 		lock.lock();
 		try {
 			this.address = addr;
-			System.out.println("customer's address is set to " + this.address.toString());
+			System.out.println("Thread ID: " + Thread.currentThread().getId() + " customer's address is set to " + this.address.toString());
 		} finally {
 			lock.unlock();
 		}
@@ -28,7 +28,7 @@ public class Customer {
 		lock.lock();
 		try {
 			tmpAddress = this.address;
-			System.out.println("customer's address is set to " + tmpAddress.toString());
+			System.out.println("Thread ID: " + Thread.currentThread().getId() + " customer's address is " + tmpAddress.toString());
 		} finally {
 			lock.unlock();
 		}

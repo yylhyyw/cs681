@@ -29,7 +29,8 @@ public class ThreadSafeBankAccount {
 					" (d): new balance: " + balance);
 			sufficientFundsCondition.signalAll();
 		} catch (InterruptedException exception) {
-			exception.printStackTrace();
+			// exception.printStackTrace();
+			System.out.println(exception);
 		} finally {
 			lock.unlock();
 			System.out.println("Deposit Lock released");
@@ -52,7 +53,8 @@ public class ThreadSafeBankAccount {
 					" (w): new balance: " + balance);
 			belowUpperLimitFundsCondition.signalAll();
 		} catch (InterruptedException exception) {
-			exception.printStackTrace();
+			// exception.printStackTrace();
+			System.out.println(exception);
 		} finally {
 			lock.unlock();
 			System.out.println("Withdraw Lock released");

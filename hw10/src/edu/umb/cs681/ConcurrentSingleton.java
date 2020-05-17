@@ -19,7 +19,7 @@ public class ConcurrentSingleton implements Runnable{
 		System.out.println("Thread starts");
 		AtomicReference<ConcurrentSingleton> csi = ConcurrentSingleton.getInstance();
 		System.out.println("current instance: " + csi);
-		System.out.println("Thread ends");
+		System.out.println(Thread.currentThread().getId() + "Thread ends");
 	}
 	
 	public static void main(String[] args) {

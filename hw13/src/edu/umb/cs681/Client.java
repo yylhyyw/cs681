@@ -6,16 +6,17 @@ public class Client {
 		DepositRunnable depositRunnable= new DepositRunnable(bankAccount);
 		WithdrawRunnable withdrawRunnable = new WithdrawRunnable(bankAccount);
 		Thread[] threads = new Thread[10];
+		Thread[] withdrawThreads = new Thread[10];
 		for (int i = 0; i < 10; i++) {
 			Thread depositThread = new Thread(depositRunnable);
 			depositThread.start();
 			threads[i] = depositThread;
 			Thread withdrawThread = new Thread(withdrawRunnable);
 			withdrawThread.start();
-			threads[i] = withdrawThread;
+			withdrawThreads[i] = withdrawThread;
 		}
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(500);
 		} catch (Exception e) {
 
 		}
@@ -23,6 +24,7 @@ public class Client {
 		withdrawRunnable.setDone();
 		for (int i = 0; i < 10; i++) {
 			threads[i].interrupt();
+			withdrawThreads[i].interrupt();
 			try {
 				threads[i].join();
 			} catch (Exception exception) {

@@ -2,12 +2,13 @@ package edu.umb.cs681;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class AccessCounter {
 	
 	// hashmap
-	ConcurrentHashMap <java.nio.file.Path, Integer> hashMap = new ConcurrentHashMap <java.nio.file.Path, Integer>();
+	ConcurrentHashMap <java.nio.file.Path, AtomicInteger> hashMap = new ConcurrentHashMap <java.nio.file.Path, AtomicInteger>();
 	// non-static lock
 //	private ReentrantLock nonStaticLock = new ReentrantLock();
 	// static lock
@@ -34,36 +35,28 @@ public class AccessCounter {
 
 	public void increment(java.nio.file.Path path)
 	{
-//		nonStaticLock.lock();
-//		try {
-		if(hashMap.containsKey(path)) {
-			System.out.println(Thread.currentThread().getName() + " increase " + path + " to " + hashMap.get(path));
-			hashMap.put(path, hashMap.get(path)+1);
-		} else {
-			System.out.println(Thread.currentThread().getName() + " set " + path + " to 0");
-			hashMap.put(path, 1);
-		}
-//		}finally {
-//			nonStaticLock.unlock();
-//		}
+		hashMap.compute(path, (java.nio.file.Path k, AtomicInteger v) -> {
+			if(v == null) {
+				System.out.println(Thread.currentThread().getName() + " increase " + path + " to " + 1);
+				return new AtomicInteger(1);
+			} else {
+				System.out.println(Thread.currentThread().getName() + " increase " + path + " to " + (v.get()+1));
+				return new AtomicInteger(v.incrementAndGet());
+			}
+		});
 	}
-	
+
 	public int getCount(java.nio.file.Path path)
 	{
-//		int tmp = 0;
-//		nonStaticLock.lock();
-//		try {
-		if(hashMap.containsKey(path)) {
-			System.out.println(Thread.currentThread().getName() + " get " + path + " count " + hashMap.get(path));
-			return hashMap.get(path);
-		} else {
-			System.out.println(Thread.currentThread().getName() + " get " + path + " count " + 0);
-			return 0;
-		}
-//		} finally {
-//			nonStaticLock.unlock();
-//		}
-//		return tmp;
+		return hashMap.compute(path, (java.nio.file.Path k, AtomicInteger v) -> {
+			if(v == null) {
+				System.out.println(Thread.currentThread().getName() + " get " + path + " count " + 0);
+				return new AtomicInteger(0);
+			} else {
+				System.out.println(Thread.currentThread().getName() + " get " + path + " count " + v.get());
+				return v;
+			}
+		}).get();
 	}
 
 	

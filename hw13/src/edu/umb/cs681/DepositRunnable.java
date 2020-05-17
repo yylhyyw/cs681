@@ -23,18 +23,24 @@ public class DepositRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (true) {
+			lock.lock();
+			try{
 				if (done) {
+					System.out.println(Thread.currentThread().getId() + " Set to done");
 					break;
 				}
-				bankAccount.deposit(300);
-				Thread.sleep(1000);
+			} finally {
+				lock.unlock();
 			}
-		} catch (InterruptedException exception) {
-			System.out.println(exception);
+			bankAccount.deposit(300);
+			try {
+			Thread.sleep(1000);
+			} catch (InterruptedException exception) {
+				System.out.println(exception);
+				continue;
+			}
 		}
-
 	}
 
 }

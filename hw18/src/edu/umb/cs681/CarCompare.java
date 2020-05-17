@@ -24,7 +24,7 @@ public class CarCompare {
 				if(result==0) return carPrice;
 				else if(carPrice < result) return carPrice; else return result;},
 					    (finalResult, interMediateResult)->{
-					    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+					    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
 					    	return (finalResult < interMediateResult)? finalResult:interMediateResult;
 					    });
 		System.out.println("The Min price: " + minPrice);
@@ -37,7 +37,7 @@ public class CarCompare {
 					else if(carPrice >= result) return carPrice;
 					else return result;
 				}, 					    (finalResult, interMediateResult)->{
-			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
 			    	return (finalResult > interMediateResult)? finalResult:interMediateResult;
 			    });
 		System.out.println("The Max price: " + maxPrice);
@@ -49,7 +49,7 @@ public class CarCompare {
 					if(car != null) return ++result;
 					return result;
 				},										(finalResult,intermediateResult)->{
-			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + intermediateResult);
+			    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + intermediateResult);
 					return finalResult + intermediateResult;
 				});
 		System.out.println("The count Method: " + count);

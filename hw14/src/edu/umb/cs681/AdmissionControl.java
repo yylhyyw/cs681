@@ -28,7 +28,8 @@ public class AdmissionControl {
 			notSufficientCondition.signalAll();
 		}
 		catch (InterruptedException exception){
-			exception.printStackTrace();
+			// exception.printStackTrace();
+			System.out.println(exception);
 		}
 		finally{
 			lock.unlock();
@@ -39,25 +40,27 @@ public class AdmissionControl {
 	
 	public void exit() {
 		lock.lock();
+		System.out.println("Exit Lock obtained");
 		try{
-			System.out.println(Thread.currentThread().getId() + " VISITOR ENTER: current Visitors = " + 
+			System.out.println(Thread.currentThread().getId() + " VISITOR Exit: current Visitors = " + 
 					currentVisitors);
-//			while(currentVisitors <= 0) {
-//				System.out.println(Thread.currentThread().getId()
-//						+ " Too many visitors. Please wait for a while!");
-//				notSufficientCondition.await();
-//			}
+			while(currentVisitors <= 0) {
+				System.out.println(Thread.currentThread().getId()
+						+ " no Vistior to exit");
+				notSufficientCondition.await();
+			}
 			
 			if(!(currentVisitors <= 0)) {
 				currentVisitors --;
 			}
-			System.out.println(Thread.currentThread().getId() + " VISITOR ENTER: current Visitors after exit = " + 
+			System.out.println(Thread.currentThread().getId() + " VISITOR Exit: current Visitors after exit = " + 
 					currentVisitors);
 			sufficientCondition.signalAll();
 		}
-//		catch (InterruptedException exception){
-//			exception.printStackTrace();
-//		}
+		catch (InterruptedException exception){
+			// exception.printStackTrace();
+			System.out.println(exception);
+		}
 		finally{
 			lock.unlock();
 			System.out.println("Exit Lock released");

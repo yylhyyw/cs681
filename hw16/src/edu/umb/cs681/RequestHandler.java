@@ -5,18 +5,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class RequestHandler implements Runnable {
 
-	private AccessCounter access = AccessCounter.getInstance();
 	private ReentrantLock lock = new ReentrantLock();
 	private boolean done = false;
+	private int id;
 	
-	public RequestHandler() {}
+	public RequestHandler(int id) {
+		this.id = id;
+	}
 	
 	public void setDone()
 	{
 		lock.lock();
 		try {
 			done = true;
-			System.out.println(Thread.currentThread().getName() + " set to done");
+			
 		} finally {
 			lock.unlock();
 		}
@@ -32,6 +34,7 @@ public class RequestHandler implements Runnable {
 			lock.lock();
 			try {
 				if(done) {
+					System.out.println(Thread.currentThread().getName() + " set to done");
 					break;
 				}
 			} finally {
@@ -59,35 +62,13 @@ public class RequestHandler implements Runnable {
 			
 			AccessCounter.getInstance().increment(path);
 			AccessCounter.getInstance().getCount(path);
-			
 			try {
 				Thread.sleep(2000);
 			} catch(InterruptedException e) {
 				System.out.println(Thread.currentThread().getName() + " " + e);
+				continue;
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		
-		Thread[] threads = new Thread[12];
-		RequestHandler request = new RequestHandler();
 
-
-		for (int i = 0; i < 12; i++) {
-			System.out.println("Start Thread " + i);
-			threads[i] = new Thread(request);
-			threads[i].start();
-		}
-
-		request.setDone();
-		for(int i = 0; i < 12; i++) {
-			threads[i].interrupt();
-			try {
-				threads[i].join();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		}
 	}
 }

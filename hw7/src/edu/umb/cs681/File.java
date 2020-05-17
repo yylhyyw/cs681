@@ -24,7 +24,7 @@ public class File {
 		lock.lock();
 		try {
 			if(changed == false) {
-				System.out.println("cannot save");
+				System.out.println("cannot save because file is changing");
 				return;
 			} else {
 				String currentTimeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -49,6 +49,7 @@ public class File {
 		tAutoSaver.start();
 		try {
 			Thread.sleep(5000);
+			System.out.println("Thread set to done in 5 seconds");
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}

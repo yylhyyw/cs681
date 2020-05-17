@@ -2,10 +2,9 @@ package edu.umb.cs681;
 
 public class Client implements Runnable {
 
-	private Address addr1 = new Address("XXX Street", "XXX City", "XXX State", 00000);
+	private Address addr1 = new Address("XXX Street", "XXX City", "XXX State", 11110);
 	private Address addr2 = new Address("YYY Street", "YYY City", "YYY State", 11111);
 	private Customer customer1 = new Customer(addr1);
-	private Customer customer2 = new Customer(addr2);
 	
 	public static void main(String[] args) {
 		Thread t1 = new Thread(new Client());
@@ -24,12 +23,11 @@ public class Client implements Runnable {
 	}
 	@Override
 	public void run() {
+		System.out.println("get customer's address:");
 		customer1.getAddress();
-		customer2.getAddress();
+		System.out.println("set customer's address to address 2:");
 		customer1.setAddress(addr2);
-		customer2.setAddress(addr1);
-		customer1.getAddress();
-		customer2.getAddress();
+		System.out.println("set customer's address back to address 1 using customer.setAddress( customer.getAddress().change( ... ) );");
+		customer1.setAddress(customer1.getAddress().change("XXX Street", "XXX City", "XXX State", 11110));
 	}
-
 }

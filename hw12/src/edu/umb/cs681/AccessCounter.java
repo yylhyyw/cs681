@@ -19,7 +19,6 @@ public class AccessCounter {
 	
 	public static AccessCounter getInstance()
 	{
-		AccessCounter tmp = null;
 		staticLock.lock();
 		try {
 			if(instance==null)

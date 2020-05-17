@@ -30,7 +30,7 @@ public class StockCompare {
 					if(stockRate > result) return stockRate;
 					else return result;
 				}, (finalResult, interMediateResult)->{
-			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
 			    	return (finalResult > interMediateResult)? finalResult:interMediateResult;});
 		System.out.println("The Max Increase rate is " + maxIncreaseRate);
 		System.out.println("Min increase rate Method result --------: ");
@@ -41,7 +41,7 @@ public class StockCompare {
 					if(stockRate < result) return stockRate;
 					else return result;
 				}, (finalResult, interMediateResult)->{
-			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
 			    	return (finalResult < interMediateResult)? finalResult:interMediateResult;});
 		System.out.println("The Min Increase rate is " + minIncreaseRate);
 		System.out.println("Count the number of stocks that have increase rate bigger than 2% method result --------: ");
@@ -51,7 +51,7 @@ public class StockCompare {
 				.reduce(0, (result, existed) -> {
 					return result + existed;
 				}, (finalResult, interMediateResult)->{
-			    	System.out.println(Thread.currentThread().getName() + " - finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
+			    	System.out.println(Thread.currentThread().getName() + " : finalResult = " + finalResult + "; interMediateResult = " + interMediateResult);
 			    	return finalResult+interMediateResult;});
 		System.out.println("The Number of stocks with increase rate bigger than 2% is " + count);
 	}
