@@ -7,13 +7,12 @@ public class Client {
 		Thread t1 = new Thread(gen1);
 		
 		t1.start();
-		// cancel thread in 1 sec.
 		while(true) {
 			long after = System.currentTimeMillis();
 			if((after - before) == 1000) break;
 		}
 		gen1.setDone();
-		
+		System.out.println("cancel thread in 1 sec.");
 		try {
 			t1.join();
 		} catch (InterruptedException e) {}

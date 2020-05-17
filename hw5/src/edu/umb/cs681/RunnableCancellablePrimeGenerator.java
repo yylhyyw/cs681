@@ -26,7 +26,7 @@ public class RunnableCancellablePrimeGenerator extends RunnablePrimeGenerator {
 			try {
 				if(done) {
 					System.out.println("Stopped...");
-//					this.primes.clear();
+					this.primes.clear();
 					break;
 				}
 				if(isPrime(n)) {
